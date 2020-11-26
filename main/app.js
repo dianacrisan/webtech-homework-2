@@ -6,15 +6,16 @@ function addTokens(input, tokens){
         throw new Error('Input should have at least 6 characters');   
     }
 
-    if(typeof tokens != '{tokenName:string}') {
-        throw new Error('Invalid array format');
+    if(tokens) {
+        tokens.forEach(el => {
+            if(typeof el.tokenName != 'string')
+                throw new Error('Invalid array format');
+        });
     }
 
-    //If `input` don't contain any `...` return the initial value of `input`
-    //If `input` contains `...`, replace them with the specific values and return the new `input`
-    if(input.contains('...')) {
+    if(input.includes('...')) {
         tokens.forEach(el => {
-            input = input.replace('...', '${' + `${el.tokenName}` + '}');
+            input = input.replace('...', '${' + el.tokenName + '}');
         });
         return input;
     }
